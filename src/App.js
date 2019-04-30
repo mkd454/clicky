@@ -6,8 +6,20 @@ import image from "./image.json";
 import ImageCard from "./components/ImageCard"
 
 const styles = {
-  footer: {
+  footerImage: {
     width: 30
+  },
+  footer: {
+    background: "#6956af",
+    height: "50px",
+    position: "relative",
+    color: "#fff",
+    overflow: "hidden"
+  },
+  bottom: {
+    position: "absolute",
+    marginTop: -100,
+    marginLeft: 10
   }
 }
 
@@ -44,12 +56,12 @@ class App extends React.Component {
             ))}
           </Wrapper>
         </main>
-        <footer class="footer bg-danger">
-          <div class="bottom">
+        <div class="footer navbar-fixed-bottom" style={styles.footer}>
+          <div style={styles.bottom}>
             Clicky Game! 
-            <img style={styles.footer} src={logo} className="App-logo" alt="logo" />
+            <img style={styles.footerImage} src={logo} className="App-logo" alt="logo" />
           </div>
-        </footer>
+        </div>
       </div>
     );
   }
