@@ -25,7 +25,19 @@ const styles = {
 
 class App extends React.Component {
   state = {
-    image
+    image,
+    score: 0,
+    topScore: 0,
+  }
+
+  handleScoreIncrement = id => {
+    console.log(image[id-1].clicked);
+    if(!image[id-1].clicked) {
+      image[id-1].clicked = true;
+      this.setState({ score: this.state.score + 1});
+    } else {
+      alert("YOU LOSE LOSERRRRRRR");
+    }
   }
 
   render() {
@@ -34,7 +46,7 @@ class App extends React.Component {
         <nav class="navbar navbar-light bg-warning">
           <a href="/">Clicky Game</a>
           <span>Click an image to begin!</span>
-          <span>Score: 0 | Top Score: 0</span>
+          <span>Score: {this.state.score} | Top Score: {this.state.topScore}</span>
         </nav>
         <header class="header">
           <div class="jumbotron jumbotron-fluid">
@@ -50,8 +62,10 @@ class App extends React.Component {
               <ImageCard
                 id={i.id}
                 key={i.id}
+                clicked={i.clicked}
                 name={i.name}
                 image={i.image}
+                handleScoreIncrement = {this.handleScoreIncrement}
               />
             ))}
           </Wrapper>
