@@ -46,13 +46,10 @@ class App extends React.Component {
   winReset () {
     if (this.state.score === 12) {
       alert("You win! Great Job!");
-      if (this.state.score > this.state.topScore) {
-        this.setState({ topScore: this.state.score});
-      }
       for(var i=0; i < image.length; i++) {
         image[i].clicked = false;
       }
-      this.setState({ score: 0 });
+      this.setState({ score: 0, topScore: 12 });
     }
   }
 
@@ -67,8 +64,7 @@ class App extends React.Component {
         var identifier = narray[y];
         if(!identifier.clicked) {
           identifier.clicked = true;
-          this.setState({ score: this.state.score + 1});
-          this.winReset();
+          this.setState({ score: this.state.score + 1}, this.winReset);
         } else {
           alert("YOU LOSE LOSERRRRRRR");
           if (this.state.score > this.state.topScore) {
