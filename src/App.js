@@ -30,33 +30,80 @@ class App extends React.Component {
     topScore: 0,
   }
 
+  shuffleArray (array) {
+    var x = array.length, j = 0, temp;
+
+    while (x--) {
+      j = Math.floor(Math.random()*(x+1));
+
+      temp = array[x];
+      array[x] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
+
+  winReset () {
+    if (this.state.score === 12) {
+      alert("You win! Great Job!");
+      if (this.state.score > this.state.topScore) {
+        this.setState({ topScore: this.state.score});
+      }
+      for(var i=0; i < image.length; i++) {
+        image[i].clicked = false;
+      }
+      this.setState({ score: 0 });
+    }
+  }
+
   handleScoreIncrement = id => {
     console.log(image[id-1].clicked);
-    if(!image[id-1].clicked) {
-      image[id-1].clicked = true;
-      this.setState({ score: this.state.score + 1});
-    } else {
-      alert("YOU LOSE LOSERRRRRRR");
+    var narray = this.state.image;
+    console.log(id);
+
+    for (var y = 0; y < narray.length; y++) {
+      if (id === narray[y].id) {
+        console.log("Found it! " + narray[y].id);
+        var identifier = narray[y];
+        if(!identifier.clicked) {
+          identifier.clicked = true;
+          this.setState({ score: this.state.score + 1});
+          this.winReset();
+        } else {
+          alert("YOU LOSE LOSERRRRRRR");
+          if (this.state.score > this.state.topScore) {
+            this.setState({ topScore: this.state.score});
+          }
+          for(var i=0; i < image.length; i++) {
+            image[i].clicked = false;
+          }
+          this.setState({ score: 0 });
+        }
+      }
     }
+
+    var testShuffle = this.shuffleArray(narray);
+    console.log(testShuffle);
+
   }
 
   render() {
     return (
       <div>
-        <nav class="navbar navbar-light bg-warning">
-          <a href="/">Clicky Game</a>
-          <span>Click an image to begin!</span>
+        <nav className="navbar navbar-light bg-warning">
+          Clicky Game
+          <a href="/"><button className="btn btn-info"><span> Reset Game </span></button></a>
           <span>Score: {this.state.score} | Top Score: {this.state.topScore}</span>
         </nav>
-        <header class="header">
-          <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-              <h1 class="display-4">Clicky Game!</h1>
-              <p class="lead">Click on an image to earn points, but don't click on any more than once!</p>
+        <header className="header">
+          <div className="jumbotron jumbotron-fluid">
+            <div className="container">
+              <h1 className="display-4">Clicky Game!</h1>
+              <p className="lead">Click on an image to earn points, but don't click on any more than once! Try to get all 12!</p>
             </div>
           </div>
         </header>
-        <main class="container">
+        <main className="container">
           <Wrapper>
             {this.state.image.map(i => (
               <ImageCard
@@ -70,7 +117,7 @@ class App extends React.Component {
             ))}
           </Wrapper>
         </main>
-        <div class="footer navbar-fixed-bottom" style={styles.footer}>
+        <div className="footer navbar-fixed-bottom" style={styles.footer}>
           <div style={styles.bottom}>
             Clicky Game! 
             <img style={styles.footerImage} src={logo} className="App-logo" alt="logo" />
